@@ -1,0 +1,51 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 门店信息 -->
+  <view class="profile-header">
+    <image class="store-avatar" src="/assets/images/store.png" mode="aspectFill"></image>
+    <view class="store-info">
+      <text class="store-name">{{storeName}}</text>
+      <text class="store-code">门店编号：{{storeCode}}</text>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-list">
+    <view class="menu-item" bindtap="goToUsageReport">
+      <view class="menu-icon">
+        <image src="/assets/icons/usage-report.png" mode="aspectFit"></image>
+      </view>
+      <text class="menu-text">使用报表</text>
+      <view class="menu-arrow"></view>
+    </view>
+    
+    <view class="menu-item" bindtap="contactUs">
+      <view class="menu-icon">
+        <image src="/assets/icons/contact.png" mode="aspectFit"></image>
+      </view>
+      <text class="menu-text">联系我们</text>
+      <view class="menu-arrow"></view>
+    </view>
+    
+    <view class="menu-item" bindtap="aboutSystem">
+      <view class="menu-icon">
+        <image src="/assets/icons/about.png" mode="aspectFit"></image>
+      </view>
+      <text class="menu-text">关于系统</text>
+      <view class="menu-arrow"></view>
+    </view>
+    
+    <view class="menu-item" bindtap="logout">
+      <view class="menu-icon">
+        <image src="/assets/icons/logout.png" mode="aspectFit"></image>
+      </view>
+      <text class="menu-text logout-text">退出登录</text>
+      <view class="menu-arrow"></view>
+    </view>
+  </view>
+
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>当前版本 {{version}}</text>
+  </view>
+</view>

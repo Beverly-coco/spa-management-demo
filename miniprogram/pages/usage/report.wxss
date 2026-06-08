@@ -1,0 +1,248 @@
+/* pages/usage/report.wxss */
+.container {
+  padding: 20rpx;
+  background-color: #f7eee3;
+  min-height: 100vh;
+}
+
+/* 头部样式 */
+.header {
+  background-color: #1f1f1f;
+  color: #f7eee3;
+  padding: 40rpx 30rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(31, 31, 31, 0.1);
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  font-size: 26rpx;
+  opacity: 0.8;
+  margin-bottom: 30rpx;
+}
+
+.month-picker {
+  background-color: rgba(255, 95, 0, 0.2);
+  border-radius: 8rpx;
+  padding: 16rpx 20rpx;
+  display: inline-block;
+}
+
+.picker-content {
+  display: flex;
+  align-items: center;
+}
+
+.selected-month {
+  font-size: 28rpx;
+  margin-right: 10rpx;
+}
+
+.picker-arrow {
+  width: 0;
+  height: 0;
+  border-left: 10rpx solid transparent;
+  border-right: 10rpx solid transparent;
+  border-top: 10rpx solid #f7eee3;
+}
+
+/* 加载中样式 */
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  z-index: 100;
+}
+
+.loading {
+  width: 80rpx;
+  height: 80rpx;
+  background-color: #ff5f00; /* 黄丹色 */
+  border-radius: 50%;
+  animation: pulse 1s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+}
+
+/* 错误提示样式 */
+.error-container {
+  background-color: #f7eee3;
+  border-radius: 12rpx;
+  padding: 40rpx 30rpx;
+  margin: 30rpx 0;
+  text-align: center;
+  box-shadow: 0 2rpx 10rpx rgba(31, 31, 31, 0.1);
+}
+
+.error-message {
+  font-size: 30rpx;
+  color: #ff5f00;
+  margin-bottom: 30rpx;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 20rpx;
+}
+
+.refresh-button {
+  background-color: #1f1f1f;
+  color: #f7eee3;
+  font-size: 28rpx;
+  padding: 16rpx 30rpx;
+  border-radius: 40rpx;
+  display: inline-block;
+}
+
+.calculate-button {
+  background-color: #ff5f00;
+  color: #f7eee3;
+  font-size: 28rpx;
+  padding: 16rpx 30rpx;
+  border-radius: 40rpx;
+  display: inline-block;
+}
+
+/* 总费用样式 */
+.total-cost {
+  background-color: #f7eee3;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+  box-shadow: 0 2rpx 10rpx rgba(31, 31, 31, 0.1);
+  position: relative;
+}
+
+.cost-label {
+  font-size: 28rpx;
+  color: #1f1f1f;
+  margin-bottom: 10rpx;
+}
+
+.cost-value {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #ff5f00;
+  margin-bottom: 20rpx;
+}
+
+.recalculate-button {
+  background-color: #ff5f00;
+  color: #f7eee3;
+  font-size: 24rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
+  display: inline-block;
+  margin-top: 10rpx;
+}
+
+/* 使用记录列表样式 */
+.usage-list {
+  background-color: #f7eee3;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 10rpx rgba(31, 31, 31, 0.1);
+}
+
+.list-header {
+  display: flex;
+  background-color: #1f1f1f;
+  padding: 20rpx 30rpx;
+  border-bottom: 1rpx solid #f7eee3;
+}
+
+.header-item {
+  font-size: 26rpx;
+  color: #f7eee3;
+  font-weight: bold;
+}
+
+.list-item {
+  display: flex;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #1f1f1f;
+  align-items: center;
+}
+
+.item-product {
+  flex: 2;
+}
+
+.product-name {
+  font-size: 28rpx;
+  margin-bottom: 6rpx;
+  color: #1f1f1f;
+}
+
+.product-unit {
+  font-size: 24rpx;
+  color: #1f1f1f;
+}
+
+.item-price,
+.item-quantity,
+.item-cost {
+  flex: 1;
+  font-size: 28rpx;
+  text-align: center;
+  color: #1f1f1f;
+}
+
+.item-cost {
+  color: #ff5f00;
+  font-weight: bold;
+}
+
+/* 无数据提示样式 */
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx 0;
+  background-color: #f7eee3;
+  border-radius: 12rpx;
+  margin-top: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(31, 31, 31, 0.1);
+}
+
+.empty-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background-color: #1f1f1f;
+  margin-bottom: 20rpx;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  color: #1f1f1f;
+  margin-bottom: 30rpx;
+}

@@ -1,0 +1,66 @@
+<!-- pages/usage/report.wxml -->
+<view class="container">
+  <!-- 标题和月份选择 -->
+  <view class="header">
+    <view class="title">使用报表</view>
+    <view class="subtitle">查看门店产品使用情况及费用</view>
+    
+    <picker mode="selector" range="{{months}}" range-key="label" bindchange="bindMonthChange" class="month-picker">
+      <view class="picker-content">
+        <view class="selected-month">{{currentMonth}}</view>
+        <view class="picker-arrow"></view>
+      </view>
+    </picker>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error-container" wx:if="{{hasError}}">
+    <view class="error-message">{{errorMsg}}</view>
+    <view class="button-group">
+      <button class="refresh-button" bindtap="refreshData">刷新数据</button>
+      <button class="calculate-button" bindtap="calculateUsageData">计算使用量</button>
+    </view>
+  </view>
+
+  <!-- 数据内容 -->
+  <block wx:elif="{{usages.length > 0}}">
+    <!-- 总费用 -->
+    <view class="total-cost">
+      <view class="cost-label">本月总费用</view>
+      <view class="cost-value">¥ {{totalCost}}</view>
+      <button class="recalculate-button" bindtap="calculateUsageData">重新计算</button>
+    </view>
+
+    <!-- 使用记录列表 -->
+    <view class="usage-list">
+      <view class="list-header">
+        <view class="header-item product">产品</view>
+        <view class="header-item price">单价</view>
+        <view class="header-item quantity">数量</view>
+        <view class="header-item cost">费用</view>
+      </view>
+      
+      <view class="list-item" wx:for="{{usages}}" wx:key="id">
+        <view class="item-product">
+          <view class="product-name">{{item.product.name}}</view>
+          <view class="product-unit">{{item.product.unit}}</view>
+        </view>
+        <view class="item-price">¥{{item.product.price}}</view>
+        <view class="item-quantity">{{item.quantity}}</view>
+        <view class="item-cost">¥{{item.cost}}</view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 无数据提示 -->
+  <view class="empty-container" wx:else>
+    <view class="empty-icon"></view>
+    <view class="empty-text">当前月份没有使用记录</view>
+    <button class="calculate-button" bindtap="calculateUsageData">计算使用量</button>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+  </view>
+</view> 

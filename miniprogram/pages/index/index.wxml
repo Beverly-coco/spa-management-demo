@@ -1,0 +1,69 @@
+<!-- index.wxml -->
+<view class="container">
+  <!-- 门店信息 -->
+  <view class="store-info">
+    <image class="store-logo" src="/assets/images/store.png"></image>
+    <view class="store-detail">
+      <view class="store-name">{{storeName}}</view>
+      <view class="store-code">门店编号：{{storeCode}}</view>
+    </view>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error-container" wx:if="{{hasError}}">
+    <view class="error-message">{{errorMsg}}</view>
+    <view class="button-group">
+      <button class="refresh-button" bindtap="refreshData">刷新数据</button>
+      <button class="calculate-button" bindtap="calculateUsageData" wx:if="{{monthlyCost === 0}}">计算使用量</button>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="stats-container" wx:elif="{{!loading}}">
+    <view class="stats-row">
+      <view class="stats-item">
+        <view class="stats-title">品类数据</view>
+        <view class="stats-value">{{storeData}}</view>
+      </view>
+      <view class="stats-item">
+        <view class="stats-title">月度统计</view>
+        <view class="stats-value">{{monthlyData}}</view>
+        <view class="stats-cost">¥{{monthlyCost}}</view>
+      </view>
+      <view class="stats-item">
+        <view class="stats-title">库存预警</view>
+        <view class="stats-value {{inventoryAlert > 0 ? 'alert' : ''}}">{{inventoryAlert}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="action-container" wx:if="{{!loading}}">
+    <view class="action-title">快捷操作</view>
+    <view class="action-row">
+      <view class="action-item" bindtap="goToInventory">
+        <view class="action-icon inventory-icon">
+         <image src="/assets/icons/check-inventory.png" mode="aspectFit">
+         </image></view>
+        <view class="action-text">盘点库存</view>
+      </view>
+      <view class="action-item" bindtap="goToOrders">
+        <view class="action-icon order-icon">
+        <image src="/assets/icons/order.png" mode="aspectFit"></image>
+        </view>
+        <view class="action-text">采购订单</view>
+      </view>
+      <view class="action-item" bindtap="viewUsageReport">
+        <view class="action-icon report-icon">
+        <image src="/assets/icons/usage-report.png" mode="aspectFit"></image>
+        </view>
+        <view class="action-text">使用报表</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+  </view>
+</view> 

@@ -1,0 +1,90 @@
+/* pages/profile/profile.wxss */
+.container {
+  padding: 0;
+  background-color: #f7eee3;
+  min-height: 100vh;
+}
+
+/* 头部信息 */
+.profile-header {
+  display: flex;
+  align-items: center;
+  padding: 40rpx 30rpx;
+  background-color: #1f1f1f;
+  color: #f7eee3;
+}
+
+.store-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #f7eee3;
+  margin-right: 30rpx;
+}
+
+.store-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.store-name {
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.store-code {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* 菜单列表 */
+.menu-list {
+  background-color: #f7eee3;
+  margin-top: 20rpx;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #1f1f1f;
+}
+
+.menu-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+.menu-icon image {
+  width: 100%;
+  height: 100%;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #1f1f1f;
+}
+
+.logout-text {
+  color: #ff5f00;
+}
+
+.menu-arrow {
+  width: 16rpx;
+  height: 16rpx;
+  border-top: 4rpx solid #1f1f1f;
+  border-right: 4rpx solid #1f1f1f;
+  transform: rotate(45deg);
+}
+
+/* 版本信息 */
+.version-info {
+  margin-top: 60rpx;
+  text-align: center;
+  color: #1f1f1f;
+  font-size: 24rpx;
+  padding: 20rpx;
+}

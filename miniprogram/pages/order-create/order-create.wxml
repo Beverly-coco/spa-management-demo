@@ -1,0 +1,144 @@
+<!--pages/order-create/order-create.wxml-->
+<view class="container">
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="page-title">创建采购订单</view>
+  </view>
+
+  <!-- 表单 -->
+  <view class="form-container">
+    <form bindsubmit="submitOrder">
+      <!-- 订单基本信息 -->
+      <view class="form-section">
+        <view class="section-title">订单信息</view>
+        
+        <view class="form-item">
+          <view class="form-label">订单标题</view>
+          <input class="form-input" name="title" placeholder="自动生成订单标题" model:value="{{formData.title}}" />
+        </view>
+
+        <view class="form-item">
+          <view class="form-label">备注说明</view>
+          <textarea class="form-textarea" name="description" placeholder="请输入订单备注" model:value="{{formData.description}}"></textarea>
+        </view>
+      </view>
+
+      <!-- 商品列表 -->
+      <view class="form-section">
+        <view class="section-title">
+          商品清单
+          <button class="add-btn" bindtap="addProduct" style="position: relative; left: 200rpx; top: 0rpx">添加商品</button>
+        </view>
+
+        <view class="product-list">
+          <view class="product-item" wx:for="{{formData.products}}" wx:key="index">
+            <view class="product-header">
+              <view class="product-title">商品 {{index + 1}}</view>
+              <button class="delete-btn" bindtap="removeProduct" data-index="{{index}}" style="position: relative; left: 151rpx; top: 0rpx">删除</button>
+            </view>
+            
+            <view class="product-form">
+              <view class="form-row">
+                <view class="form-item full-width">
+                  <view class="form-label">选择商品</view>
+                  <!-- 自定义搜索下拉框 -->
+                  <view class="product-selector">
+                    <!-- 遮罩层 -->
+                    <view class="dropdown-mask" wx:if="{{item.showDropdown}}" catchtap="onCloseDropdown" data-index="{{index}}"></view>
+                    
+                    <view class="selector-input" catchtap="onSelectorFocus" data-index="{{index}}">
+                      <view class="selected-product" wx:if="{{item.productName}}">
+                        <image class="product-thumb" src="{{item.productImageUrl}}" mode="aspectFill" binderror="handleImageError" bindload="handleImageLoad" data-index="{{index}}" lazy-load="{{true}}"></image>
+                        <text class="product-name">{{item.productName}}</text>
+                      </view>
+                      <view class="placeholder" wx:else>请选择商品</view>
+                      <text class="arrow {{item.showDropdown ? 'up' : 'down'}}">▼</text>
+                    </view>
+                    
+                    <!-- 下拉列表 -->
+                    <view class="dropdown-panel" wx:if="{{item.showDropdown}}" catchtap="stopPropagation" catchtouchmove="stopPropagation">
+                      <!-- 搜索框 -->
+                      <view class="search-box">
+                        <input 
+                          class="search-input" 
+                          type="text" 
+                          placeholder="搜索商品名称" 
+                          placeholder-class="search-placeholder"
+                          value="{{item.searchKeyword}}"
+                          bindinput="onSearchInput"
+                          data-index="{{index}}"
+                          adjust-position="{{false}}"
+                        />
+                      </view>
+                      
+                      <!-- 产品列表 -->
+                      <scroll-view class="product-dropdown-list" scroll-y="true" enhanced="{{true}}" show-scrollbar="{{false}}">
+                        <view 
+                          class="product-option {{item.productId === product.id ? 'selected' : ''}}"
+                          wx:for="{{item.filteredProducts}}" 
+                          wx:for-item="product"
+                          wx:for-index="productIndex"
+                          wx:key="id"
+                          catchtap="onSelectProduct"
+                          data-index="{{index}}"
+                          data-product="{{product}}"
+                        >
+                          <image class="product-image" src="{{product.imageUrl}}" mode="aspectFill" binderror="handleDropdownImageError" bindload="handleDropdownImageLoad" data-index="{{index}}" data-product-id="{{product.id}}" lazy-load="{{true}}"></image>
+                          <view class="product-info">
+                            <text class="product-name">{{product.name}}</text>
+                            <text class="product-price">¥{{product.price}}</text>
+                          </view>
+                        </view>
+                        <view wx:if="{{item.filteredProducts.length === 0}}" class="no-result">
+                          未找到匹配的商品
+                        </view>
+                      </scroll-view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              
+              <view class="form-row">
+                <view class="form-item">
+                  <view class="form-label">数量</view>
+                  <input class="form-input" type="number" placeholder="数量" model:value="{{item.quantity}}" bindinput="onProductChange" data-index="{{index}}" data-field="quantity" />
+                </view>
+                <view class="form-item">
+                  <view class="form-label">单价</view>
+                  <view class="form-text">¥{{item.price || 0}}</view>
+                </view>
+              </view>
+              
+              <view class="form-row">
+                <view class="form-item">
+                  <view class="form-label">小计</view>
+                  <view class="form-text">¥{{item.subtotal || 0}}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 订单总计 -->
+      <view class="form-section">
+        <view class="total-section">
+          <view class="total-item">
+            <text>商品总数：</text>
+            <text>{{totalQuantity}} 个</text>
+          </view>
+          <view class="total-item">
+            <text>订单总额：</text>
+            <text class="total-amount">¥{{totalAmount}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 提交按钮 -->
+      <view class="form-actions">
+        <button class="cancel-btn" bindtap="cancelOrder">取消</button>
+        <button class="submit-btn" form-type="submit" loading="{{submitting}}">提交订单</button>
+      </view>
+    </form>
+  </view>
+</view>

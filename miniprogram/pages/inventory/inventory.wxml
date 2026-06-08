@@ -1,0 +1,71 @@
+<!--inventory.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="title">库存盘点</view>
+    <view class="subtitle">当前库存数量和实际库存可能存在差异，请定期盘点</view>
+  </view>
+
+  <!-- 库存列表 -->
+  <block wx:if="{{!showResult}}">
+    <view class="inventory-list">
+      <block wx:for="{{inventories}}" wx:key="id">
+        <view class="inventory-item">
+          <image class="product-image" lazy-load="{{true}}" src="{{item.product.imageUrl || getImageUrl(item.product.image)}}" mode="aspectFill" binderror="handleImageError" bindload="handleImageLoad" data-index="{{index}}"></image>
+          <view class="product-info">
+            <text class="product-name">{{item.product.name}}</text>
+            <text class="product-code">编码: {{item.product.code}}</text>
+            <view class="inventory-status">
+              <text class="inventory-quantity">当前库存: {{item.quantity}} {{item.product.unit}}</text>
+              <text class="inventory-price">单价: ¥{{item.product.price}}/{{item.product.unit}}</text>
+            </view>
+            <view class="inventory-status">
+              <text class="inventory-date">最后盘点: {{item.lastCheckedAt ? item.lastCheckedAt : '未盘点'}}</text>
+            </view>
+          </view>
+          <!-- 图片加载状态 -->
+          <view class="image-loading-indicator" wx:if="{{!imageLoaded[index]}}"></view>
+        </view>
+      </block>
+    </view>
+
+    <view class="action-bar">
+      <button class="check-button" bindtap="startCheck">开始盘点</button>
+      <button class="export-button" bindtap="exportInventory" loading="{{exporting}}" disabled="{{exporting}}">导出库存</button>
+    </view>
+  </block>
+
+  <!-- 盘点界面 -->
+  <block wx:else>
+    <view class="check-list">
+      <block wx:for="{{checkedProducts}}" wx:key="id" wx:for-index="productId" wx:for-item="product">
+        <view class="check-item">
+          <image class="product-image" lazy-load="{{true}}" src="{{product.imageUrl || getImageUrl(product.image) || getImageUrl('no-photo.jpg')}}" mode="aspectFill" binderror="handleProductImageError" bindload="handleProductImageLoad" data-id="{{productId}}"></image>
+          <view class="product-info">
+            <text class="product-name">{{product.name}}</text>
+            <view class="inventory-status">
+              <text class="inventory-quantity">当前: {{product.currentQuantity}} {{product.unit}}</text>
+              <text class="inventory-price">单价: ¥{{product.price}}/{{product.unit}}</text>
+            </view>
+          </view>
+          <view class="quantity-control">
+            <view class="decrease" bindtap="updateQuantity" data-product-id="{{productId}}" data-action="decrease">-</view>
+            <input class="quantity-input" type="number" value="{{product.newQuantity}}" bindinput="inputQuantity" data-product-id="{{productId}}" />
+            <view class="increase" bindtap="updateQuantity" data-product-id="{{productId}}" data-action="increase">+</view>
+          </view>
+          <!-- 图片加载状态 -->
+          <view class="image-loading-indicator" wx:if="{{loadingImages[productId]}}"></view>
+        </view>
+      </block>
+    </view>
+
+    <view class="action-bar">
+      <button class="cancel-button" bindtap="cancelCheck">取消</button>
+      <button class="submit-button" bindtap="submitCheckResult" loading="{{submitting}}" disabled="{{submitting}}">提交盘点</button>
+    </view>
+  </block>
+
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+  </view>
+</view> 

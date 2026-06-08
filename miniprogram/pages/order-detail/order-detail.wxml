@@ -1,0 +1,105 @@
+<!--pages/order-detail/order-detail.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error-container" wx:elif="{{hasError}}">
+    <view class="error-message">{{errorMsg}}</view>
+    <button class="refresh-button" bindtap="refreshData">刷新</button>
+  </view>
+
+  <!-- 订单详情 -->
+  <block wx:else>
+    <!-- 订单头部 -->
+    <view class="order-header">
+      <view class="order-title">
+        <text class="title-text">订单详情</text>
+        <view class="status-tag {{order.status}}">{{statusText}}</view>
+      </view>
+      <view class="order-number">订单号：{{order.order_number}}</view>
+      <view class="order-date">创建时间：{{createdAt}}</view>
+    </view>
+
+    <!-- 订单信息 -->
+    <view class="info-section">
+      <view class="section-title">订单信息</view>
+      <view class="info-content">
+        <view class="info-item">
+          <text class="info-label">订单状态：</text>
+          <text class="info-value">{{statusText}}</text>
+        </view>
+        <view class="info-item" wx:if="{{order.payment_status}}">
+          <text class="info-label">支付状态：</text>
+          <text class="info-value payment-status {{order.payment_status}}">{{paymentStatusText}}</text>
+        </view>
+        <view class="info-item">
+          <text class="info-label">订单备注：</text>
+          <text class="info-value">{{order.remarks || '无'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 商品列表 -->
+    <view class="products-section">
+      <view class="section-title">商品清单</view>
+      <view class="products-list">
+        <view class="product-item" wx:for="{{orderItems}}" wx:key="id">
+          <view class="product-info">
+            <view class="product-name">{{item.productName}}</view>
+            <view class="product-meta">
+              <text class="product-price">¥{{item.unit_price}}</text>
+              <text class="product-quantity">x {{item.quantity}}</text>
+            </view>
+          </view>
+          <view class="product-subtotal">¥{{item.subtotal}}</view>
+        </view>
+      </view>
+      <view class="order-total">
+        <text>订单总计：</text>
+        <text class="total-amount">¥{{order.total_amount}}</text>
+      </view>
+    </view>
+
+    <!-- 订单日志 -->
+    <view class="logs-section" wx:if="{{orderLogs.length > 0}}">
+      <view class="section-title">订单日志</view>
+      <view class="logs-list">
+        <view class="log-item" wx:for="{{orderLogs}}" wx:key="id">
+          <view class="log-time">{{formatDate(item.created_at)}}</view>
+          <view class="log-content">
+            <text class="log-action">{{item.action}}</text>
+            <text class="log-status">{{item.status}}</text>
+          </view>
+          <view class="log-remarks">{{item.remarks}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-section">
+      <button class="action-button cancel" bindtap="navigateBack">返回</button>
+      
+      <!-- 根据订单状态显示不同的操作按钮 -->
+      <block wx:if="{{order.status === 'pending'}}">
+        <button class="action-button primary" bindtap="confirmOrder">确认订单</button>
+      </block>
+      <block wx:elif="{{order.status === 'approved'}}">
+        <block wx:if="{{order.payment_status !== 'paid'}}">
+          <block wx:if="{{order.payment_status === 'paying'}}">
+            <button class="action-button warning" bindtap="handlePay">已有支付订单，重新支付</button>
+          </block>
+          <block wx:else>
+            <button class="action-button primary" bindtap="handlePay">去支付</button>
+          </block>
+        </block>
+        <button class="action-button primary" bindtap="processOrder">开始处理</button>
+      </block>
+      <block wx:elif="{{order.status === 'processing'}}">
+        <button class="action-button primary" bindtap="completeOrder">完成订单</button>
+      </block>
+    </view>
+  </block>
+</view>
